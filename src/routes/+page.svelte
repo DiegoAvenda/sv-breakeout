@@ -58,6 +58,13 @@
 
 			if (ballY < ballRadius) {
 				ballDY = -ballDY;
+			} else if (ballY > canvas.height - ballRadius) {
+				if (ballX > paddleX && ballX < paddleX + paddleWidth) {
+					ballDY = -ballDY;
+				} else {
+					alert('game over');
+					document.location.reload();
+				}
 			}
 
 			if (ballX > canvas.width - ballRadius || ballX < ballRadius) {
