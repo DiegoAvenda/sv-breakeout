@@ -12,6 +12,27 @@
 		const paddleHeight = 10;
 		const paddleWidth = 75;
 		let paddleX = (canvas.width - paddleWidth) / 2;
+		let rightPressed = $state(false);
+		let leftPressed = $state(false);
+
+		document.addEventListener('keydown', keyDownHandler);
+		document.addEventListener('keyup', keyUpHandler);
+
+		function keyDownHandler(e) {
+			if (e.key === 'ArrowRight') {
+				rightPressed = true;
+			} else if (e.key === 'ArrowLeft') {
+				leftPressed = true;
+			}
+		}
+
+		function keyUpHandler(e) {
+			if (e.key === 'ArrowRight') {
+				rightPressed = false;
+			} else if (e.key === 'ArrowLeft') {
+				leftPressed = false;
+			}
+		}
 
 		function drawBall() {
 			ctx.beginPath();
@@ -45,6 +66,12 @@
 
 			ballX += ballDX;
 			ballY += ballDY;
+
+			if (rightPressed) {
+				paddleX += 7;
+			} else if (leftPressed) {
+				paddleX -= 7;
+			}
 
 			requestAnimationFrame(draw);
 		}
