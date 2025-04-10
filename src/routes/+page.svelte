@@ -58,7 +58,7 @@
 
 			if (ballY < ballRadius) {
 				ballDY = -ballDY;
-			} else if (ballY > canvas.height - ballRadius) {
+			} else if (ballY > canvas.height - ballRadius - paddleHeight) {
 				if (ballX > paddleX && ballX < paddleX + paddleWidth) {
 					ballDY = -ballDY;
 				} else {
@@ -75,9 +75,9 @@
 			ballY += ballDY;
 
 			if (rightPressed) {
-				paddleX += 7;
+				paddleX = Math.min(canvas.width - paddleWidth, paddleX + 7);
 			} else if (leftPressed) {
-				paddleX -= 7;
+				paddleX = Math.max(0, paddleX - 7);
 			}
 
 			requestAnimationFrame(draw);
