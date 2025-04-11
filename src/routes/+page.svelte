@@ -6,7 +6,7 @@
 
 		let ballX = canvas.width / 2;
 		let ballY = canvas.height / 2;
-		let ballDX = 2;
+		let ballDX = -2;
 		let ballDY = -2;
 		let ballRadius = 10;
 		const paddleHeight = 10;
@@ -47,17 +47,6 @@
 			}
 		}
 
-		function collisionDetection() {
-			for (let c = 0; c < brickColumnCount; c++) {
-				for (let r = 0; r < brickRowCount; r++) {
-					const b = bricks[c][r];
-					if (ballX > b.x && ballX < b.x + brickWidth && ballY > b.y && ballY < b.y + brickHeight) {
-						ballDY = -ballDY;
-					}
-				}
-			}
-		}
-
 		document.addEventListener('keydown', keyDownHandler);
 		document.addEventListener('keyup', keyUpHandler);
 
@@ -74,6 +63,17 @@
 				rightPressed = false;
 			} else if (e.key === 'ArrowLeft') {
 				leftPressed = false;
+			}
+		}
+
+		function collisionDetection() {
+			for (let c = 0; c < brickColumnCount; c++) {
+				for (let r = 0; r < brickRowCount; r++) {
+					const b = bricks[c][r];
+					if (ballX > b.x && ballX < b.x + brickWidth && ballY > b.y && ballY < b.y + brickHeight) {
+						ballDY = -ballDY;
+					}
+				}
 			}
 		}
 
@@ -99,6 +99,7 @@
 			drawBall();
 			drawPaddle();
 			drawBricks();
+			collisionDetection();
 
 			if (ballY < ballRadius) {
 				ballDY = -ballDY;
