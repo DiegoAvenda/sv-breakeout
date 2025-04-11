@@ -15,6 +15,49 @@
 		let rightPressed = $state(false);
 		let leftPressed = $state(false);
 
+		const brickRowCount = 3;
+		const brickColumnCount = 5;
+		const brickWidth = 75;
+		const brickHeight = 20;
+		const brickPadding = 10;
+		const brickOffsetTop = 30;
+		const brickOffsetLeft = 30;
+
+		const bricks = [];
+		for (let c = 0; c < brickColumnCount; c++) {
+			bricks[c] = [];
+			for (let r = 0; r < brickRowCount; r++) {
+				bricks[c][r] = { x: 0, y: 0 };
+			}
+		}
+
+		function drawBricks() {
+			for (let c = 0; c < brickColumnCount; c++) {
+				for (let r = 0; r < brickRowCount; r++) {
+					const brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
+					const brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+					bricks[c][r].x = brickX;
+					bricks[c][r].y = brickY;
+					ctx.beginPath();
+					ctx.rect(brickX, brickY, brickWidth, brickHeight);
+					ctx.fillStyle = '#0095DD';
+					ctx.fill();
+					ctx.closePath();
+				}
+			}
+		}
+
+		function collisionDetection() {
+			for (let c = 0; c < brickColumnCount; c++) {
+				for (let r = 0; r < brickRowCount; r++) {
+					const b = bricks[c][r];
+					if (ballX > b.x && ballX < b.x + brickWidth && ballY > b.y && ballY < b.y + brickHeight) {
+						ballDY = -ballDY;
+					}
+				}
+			}
+		}
+
 		document.addEventListener('keydown', keyDownHandler);
 		document.addEventListener('keyup', keyUpHandler);
 
@@ -55,6 +98,7 @@
 			ctx.strokeRect(0, 0, canvas.width, canvas.height);
 			drawBall();
 			drawPaddle();
+			drawBricks();
 
 			if (ballY < ballRadius) {
 				ballDY = -ballDY;
@@ -89,4 +133,4 @@
 
 <h1>hi</h1>
 
-<canvas bind:this={canvas}></canvas>
+<canvas bind:this={canvas} width="600" height="600"></canvas>
