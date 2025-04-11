@@ -15,6 +15,7 @@
 		let rightPressed = $state(false);
 		let leftPressed = $state(false);
 		let score = 0;
+		let lives = 3;
 
 		const brickRowCount = 3;
 		const brickColumnCount = 5;
@@ -99,6 +100,12 @@
 			ctx.fillText(`Score: ${score}`, 8, 20);
 		}
 
+		function drawLives() {
+			ctx.font = '16px Arial';
+			ctx.fillStyle = '#0095DD';
+			ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
+		}
+
 		function drawBall() {
 			ctx.beginPath();
 			ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
@@ -123,6 +130,7 @@
 			drawBricks();
 			collisionDetection();
 			drawScore();
+			drawLives();
 
 			if (ballY < ballRadius) {
 				ballDY = -ballDY;
@@ -130,8 +138,17 @@
 				if (ballX > paddleX && ballX < paddleX + paddleWidth) {
 					ballDY = -ballDY;
 				} else {
-					alert('game over');
-					document.location.reload();
+					lives--;
+					if (!lives) {
+						alert('GAME OVER');
+						document.location.reload();
+					} else {
+						ballX = canvas.width / 2;
+						ballY = canvas.height - 30;
+						ballDX = 2;
+						ballDY = -2;
+						paddleX = (canvas.width - paddleWidth) / 2;
+					}
 				}
 			}
 
