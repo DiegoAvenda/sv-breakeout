@@ -14,6 +14,7 @@
 		let paddleX = (canvas.width - paddleWidth) / 2;
 		let rightPressed = $state(false);
 		let leftPressed = $state(false);
+		let score = 0;
 
 		const brickRowCount = 3;
 		const brickColumnCount = 5;
@@ -82,10 +83,20 @@
 						) {
 							ballDY = -ballDY;
 							b.status = 0;
+							score++;
+							if (score === brickRowCount * brickColumnCount) {
+								alert('YOU WIN, CONGRATULATIONS!');
+							}
 						}
 					}
 				}
 			}
+		}
+
+		function drawScore() {
+			ctx.font = '16px Arial';
+			ctx.fillStyle = '#0095DD';
+			ctx.fillText(`Score: ${score}`, 8, 20);
 		}
 
 		function drawBall() {
@@ -111,6 +122,7 @@
 			drawPaddle();
 			drawBricks();
 			collisionDetection();
+			drawScore();
 
 			if (ballY < ballRadius) {
 				ballDY = -ballDY;
@@ -142,7 +154,5 @@
 		draw();
 	});
 </script>
-
-<h1>hi</h1>
 
 <canvas bind:this={canvas} width="600" height="600"></canvas>
